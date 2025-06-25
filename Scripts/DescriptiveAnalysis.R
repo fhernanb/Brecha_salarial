@@ -1,6 +1,8 @@
 
 # Loading the dataset -----------------------------------------------------
 library(haven)
+library(dplyr)
+
 datos <- read_dta("Data/GEIH_Intermedia_step1.dta")
 
 dim(datos)
@@ -35,7 +37,7 @@ datos <- datos %>%
                     regimen_scc == 2 ~ "Especial",
                     regimen_scc == 3 ~ "Subsidiado",
                     regimen_scc == 9 ~ "No sabe, no informa",
-        ),
+        ))
 
 # To convert "educacion" in factor using words, not numbers.
 datos <- datos %>%
@@ -54,7 +56,7 @@ datos <- datos %>%
                     educacion == 12 ~ "Maestría",
                     educacion == 13 ~ "Doctorado",
                     educacion == 99 ~ "No sabe, no informa",
-  ),
+  ))
 
   # To convert "dpto" in factor using words, not numbers.
   datos <- datos %>%
@@ -83,23 +85,23 @@ datos <- datos %>%
                       dpto == 73 ~ "Tolima",
                       dpto == 76 ~ "Valle del Cauca",
                       dpto == 99 ~ "No identificado",
-      ),
+      ))
       
       
 
 # To convert "sexo" in factor using words, not numbers.
 datos <- datos %>%
-  mutate(sexo = ifelse(sexo == 0, "Mujer", "Hombre")),
+  mutate(sexo = ifelse(sexo == 0, "Mujer", "Hombre"))
 
 # To convert "salud" in factor using words, not numbers.
 # Es afiliado, cotizante o beneficiario en salud
 datos <- datos %>%
-  mutate(salud = ifelse(salud == 0, "No", "Si")),
+  mutate(salud = ifelse(salud == 0, "No", "Si"))
 
 # To convert "Sabe_leer_escribir" in factor using words, not numbers.
 # Es afiliado, cotizante o beneficiario en salud
 datos <- datos %>%
-  mutate(alfabetismo = ifelse(sabe_leer_escribir == 0, "No", "Si")),
+  mutate(alfabetismo = ifelse(sabe_leer_escribir == 0, "No", "Si"))
 
 # To convert "cotizante_pension" in factor using words, not numbers.
 datos <- datos %>%
@@ -107,7 +109,8 @@ datos <- datos %>%
     pension = case_when(cotizante_pension == 1 ~ "Si cotiza",
                     cotizante_pension == 2 ~ "No cotiza",
                     cotizante_pension == 3 ~ "Ya es pensionado",
-    ),
+    ))
+
 # To convert "oficio" in factor using words, not numbers.
 datos <- datos %>%
   mutate(
@@ -126,7 +129,7 @@ datos <- datos %>%
                               oficio == 2611 ~ "Abogados",
                               oficio == 2631 ~ "Economistas",
                               oficio == 2634 ~ "Psicólogos",
-      ),
+      ))
 
 # To convert "tipo_vivienda" in factor using words, not numbers.
 datos <- datos %>%
@@ -137,7 +140,7 @@ datos <- datos %>%
                     tipo_vivienda == 4 ~ "Cuartos en otra estructura",
                     tipo_vivienda == 5 ~ "Vivienda indigena",
                     tipo_vivienda == 6 ~ "Otra vivienda",
-        ),       
+        ))    
 
 # To convert "material_paredes" in factor using words, not numbers.
 datos <- datos %>%
@@ -151,7 +154,8 @@ datos <- datos %>%
                     material_paredes == 7 ~ "Caña, otro tipo de material vegetal",
                     material_paredes == 8 ~ "zinc, tela, carton, latas, plástico",
                     material_paredes == 9 ~ "sin paredes",
-        ), 
+        ))
+
 # To convert "material_pisos" in factor using words, not numbers.
   datos <- datos %>%
     mutate(
@@ -162,12 +166,12 @@ datos <- datos %>%
                                 material_pisos == 5 ~ "Madera burda, tabla, tablón",
                                 material_pisos == 6 ~ "Guadua",
                                 material_pisos == 7 ~ "Caña, otro tipo de material vegetal",
-        ), 
+        ))
 
 # To convert "energia_electrica" in factor using words, not numbers.
 # Es afiliado, cotizante o beneficiario en salud
 datos <- datos %>%
-  mutate(electricidad = ifelse(energia_electrica == 0, "No", "Si")),        
+  mutate(electricidad = ifelse(energia_electrica == 0, "No", "Si"))       
 
 # To convert "estrato_tarifa" in factor using words, not numbers.
 datos <- datos %>%
@@ -180,22 +184,22 @@ datos <- datos %>%
                           estrato_tarifa == 5 ~ "Medio - alto",
                           estrato_tarifa == 6 ~ "alto",
                           estrato_tarifa == 9 ~ "No sabe o cuenta con planta electrica",
-    ),
+    ))
 
 # To convert "gas_natural" in factor using words, not numbers.
 # Es afiliado, cotizante o beneficiario en salud
 datos <- datos %>%
-  mutate(gas_natural = ifelse(gas_natural == 0, "No", "Si")),  
+  mutate(gas_natural = ifelse(gas_natural == 0, "No", "Si"))
 
 # To convert "alcantarillado" in factor using words, not numbers.
 # Es afiliado, cotizante o beneficiario en salud
 datos <- datos %>%
-  mutate(alcantarillado = ifelse(alcantarillado == 0, "No", "Si")),  
+  mutate(alcantarillado = ifelse(alcantarillado == 0, "No", "Si"))
 
 # To convert "acueducto" in factor using words, not numbers.
 # Es afiliado, cotizante o beneficiario en salud
 datos <- datos %>%
-  mutate(acueducto = ifelse(acueducto == 0, "No", "Si")),  
+  mutate(acueducto = ifelse(acueducto == 0, "No", "Si")) 
     
 # To convert "tipo_empleo" in factor using words, not numbers.
 datos <- datos %>%
@@ -203,13 +207,12 @@ datos <- datos %>%
     empleo = case_when(cotizante_pension == 1 ~ "Empleo Privado",
                               cotizante_pension == 2 ~ "Empleo Público",
                               cotizante_pension == 3 ~ "Empleador",
-        ),
+        ))
     
 # To convert "trabaja_cuenta_propia" in factor using words, not numbers.
 # Es afiliado, cotizante o beneficiario en salud
 datos <- datos %>%
-  mutate(independiente = ifelse(trabaja_cuenta_propia == 0, "No", "Si")),
-
+  mutate(independiente = ifelse(trabaja_cuenta_propia == 0, "No", "Si"))
 
 
 # Exploratory analysis ----------------------------------------------------
@@ -219,9 +222,29 @@ library(ggplot2)
 
 datos |> select(oficio) |> table()
 
-ggplot(datos, aes(x=inglabo)) + 
+# Density for the response variable Y
+ggplot(datos, aes(x=ingresos)) + 
   geom_density() + 
-  xlab("Salary [million of pesos]")
+  xlab("Salary [million of pesos]") +
+  ylab("Densidad")
 
+# Boxplot between Y and X's
+ggplot(datos, aes(x=est_civ, y=ingresos)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  xlab("Estado civil") +
+  ylab("Salary [million of pesos]")
+
+ggplot(datos, aes(x=est_civ, y=log10(ingresos))) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  xlab("Estado civil") +
+  ylab("Logarithm of salary [million of pesos]")
+
+# Scatterplot between Y and X's
+ggplot(datos, aes(x=edad, y=ingresos)) +
+  geom_point() +
+  xlab("Edad") +
+  ylab("Salary [million of pesos]")
 
 
