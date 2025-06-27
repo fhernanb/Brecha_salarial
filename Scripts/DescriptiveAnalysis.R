@@ -33,11 +33,11 @@ datos <- datos %>%
 # To convert "regimen_scc" in factor using words, not numbers.
 datos <- datos %>%
   mutate(
-    reg = case_when(regimen_scc == 1 ~ "Contributivo (eps)",
-                    regimen_scc == 2 ~ "Especial",
-                    regimen_scc == 3 ~ "Subsidiado",
-                    regimen_scc == 9 ~ "No sabe, no informa",
-        ))
+    reg = case_when(regimen_ssc == 1 ~ "Contributivo (eps)",
+                    regimen_ssc == 2 ~ "Especial",
+                    regimen_ssc == 3 ~ "Subsidiado",
+                    regimen_ssc == 9 ~ "No sabe, no informa"),
+        )
 
 # To convert "educacion" in factor using words, not numbers.
 datos <- datos %>%
@@ -214,6 +214,14 @@ datos <- datos %>%
 datos <- datos %>%
   mutate(independiente = ifelse(trabaja_cuenta_propia == 0, "No", "Si"))
 
+
+# Saving the new dataset --------------------------------------------------
+
+# Voy a guardar la nueva base de datos para poder usarla luego en los
+# analisis posteriores
+
+saveRDS(datos, file="datos")
+datos <- readRDS(file="datos")
 
 # Exploratory analysis ----------------------------------------------------
 

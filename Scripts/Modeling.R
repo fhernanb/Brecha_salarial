@@ -1,10 +1,8 @@
 
-library(haven)
-datos <- read_dta("Datos/GEIH_Intermedia_step1.dta")
+datos <- read.csv("Data/datos.csv", header=TRUE)
 
 # Some conversions --------------------------------------------------------
 
-datos$inglabo <- datos$inglabo / 1000000 # To show the "ingresos" in millions
 
 datos$estado_civil <- as.factor(datos$estado_civil)
 
