@@ -220,8 +220,8 @@ datos <- datos %>%
 # Voy a guardar la nueva base de datos para poder usarla luego en los
 # analisis posteriores
 
-saveRDS(datos, file="datos")
-datos <- readRDS(file="datos")
+#saveRDS(datos, file="datos")
+datos <- readRDS(file="Data/datos")
 
 # Exploratory analysis ----------------------------------------------------
 

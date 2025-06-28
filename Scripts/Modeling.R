@@ -1,11 +1,6 @@
 
-datos <- read.csv("Data/datos.csv", header=TRUE)
-
-# Some conversions --------------------------------------------------------
-
-
-datos$estado_civil <- as.factor(datos$estado_civil)
-
+# Loading the modified data -----------------------------------------------
+datos <- readRDS(file="Data/datos")
 
 # Filtering ---------------------------------------------------------------
 library(dplyr)
@@ -14,17 +9,23 @@ library(dplyr)
 datos |> filter(oficio == 2512) -> dt
 
 # To quantify the number of NA in the dataframe
-
 colSums(apply(dt, MARGIN=2, FUN=is.na))
 
 # To drop rows with NA
 dt <- na.omit(dt)
 
-
 # Modeling ----------------------------------------------------------------
 library(gamlss)
 
-mod0 <- gamlss(inglabo ~ edad + estado_civil + experiencia + tipo_empleo, 
+# Exploring the best 4 distributions for ingresos
+fits <- fitDist(y=dt$ingresos, type="realplus")
+fits$fits
+
+# From the last output we identify that LOGNO, IG, BCCG and GG
+# are the four best distributions for "ingresos" marginally.
+
+
+mod0 <- gamlss(ingresos ~ edad + estado_civil + experiencia + tipo_empleo, 
                family=GA, data=dt)
 
 summary(mod0)
