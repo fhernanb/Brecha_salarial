@@ -223,6 +223,7 @@ datos <- datos %>%
 #saveRDS(datos, file="datos")
 datos <- readRDS(file="Data/datos")
 
+
 # Exploratory analysis ----------------------------------------------------
 
 library(dplyr)
@@ -237,7 +238,7 @@ ggplot(datos, aes(x=ingresos)) +
   ylab("Densidad")
 
 # Boxplot between Y and X's
-ggplot(datos, aes(x=est_civ, y=ingresos)) +
+ggplot(datos, aes(x=edu, y=ingresos)) +
   geom_boxplot() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
   xlab("Estado civil") +
@@ -253,6 +254,71 @@ ggplot(datos, aes(x=est_civ, y=log10(ingresos))) +
 ggplot(datos, aes(x=edad, y=ingresos)) +
   geom_point() +
   xlab("Edad") +
+  ylab("Salary [million of pesos]")
+
+
+ 
+# Scatterplot between Experiencia and Ingresos
+ggplot(datos, aes(x=experiencia, y=ingresos)) +
+  geom_point() +
+  xlab("Meses de experiencia") +
+  ylab("Salary [million of pesos]")
+  
+
+# Scatterplot Meses trabajados en el ultimo año and Ingresos
+ggplot(datos, aes(x=meses_trabajados, y=ingresos)) +
+  geom_point() +
+  xlab("Meses Trabajados en el ultimo año") +
+  ylab("Salary [million of pesos]"), 
+
+# Scatterplot horas_trabajadas and Ingresos
+ggplot(datos, aes(x=horas_trabajadas, y=ingresos)) +
+  geom_point() +
+  xlab("Horas trabajadas por semana") +
+  ylab("Salary [million of pesos]")
+
+# Scatterplot Ocupados and Ingresos
+ggplot(datos, aes(x=ocupados, y=ingresos)) +
+  geom_point() +
+  xlab("Personas ocupadas") +
+  ylab("Salary [million of pesos]")
+
+# Scatterplot numero_personas and Ingresos
+ggplot(datos, aes(x=numero_personas, y=ingresos)) +
+  geom_point() +
+  xlab("Número de personas en el hogar") +
+  ylab("Salary [million of pesos]")
+
+# Scatterplot pob_may18 and Ingresos
+ggplot(datos, aes(x=pob_may18, y=ingresos)) +
+  geom_point() +
+  xlab("Personas mayores de 18 en el hogar") +
+  ylab("Salary [million of pesos]")
+
+# Scatterplot  and Ingresos
+ggplot(datos, aes(x=pob, y=ingresos)) +
+  geom_point() +
+  xlab("Horas trabajadas por semana") +
+  ylab("Salary [million of pesos]")
+
+# con ingresos reales 
+
+# Scatterplot menores 5 años en el hogar and Ingresos
+ggplot(datos, aes(x=menores_5annos, y=ingresos)) +
+  geom_point() +
+  xlab("Personas menores a 5 años en el hogar") +
+  ylab("Salary [million of pesos]")
+
+# Scatterplot mayores 60 años en el hogar and Ingresos
+ggplot(datos, aes(x=mayores_60annos, y=ingresos)) +
+  geom_point() +
+  xlab("Personas mayores a 60 años en el hogar") +
+  ylab("Salary [million of pesos]")
+
+# Scatterplot personas ocupadas en el hogar  and Ingresos
+ggplot(datos, aes(x=n_ocupados , y=ingresos)) +
+  geom_point() +
+  xlab(" personas ocupadas en el hogar ") +
   ylab("Salary [million of pesos]")
 
 
