@@ -301,8 +301,6 @@ ggplot(datos, aes(x=pob, y=ingresos)) +
   xlab("Horas trabajadas por semana") +
   ylab("Salary [million of pesos]")
 
-# con ingresos reales 
-
 # Scatterplot menores 5 años en el hogar and Ingresos
 ggplot(datos, aes(x=menores_5annos, y=ingresos)) +
   geom_point() +
@@ -321,4 +319,78 @@ ggplot(datos, aes(x=n_ocupados , y=ingresos)) +
   xlab(" personas ocupadas en el hogar ") +
   ylab("Salary [million of pesos]")
 
+# cualitativas -----------------------------------------------------------------
+
+# Boxplot between Ingresos and regimen contributivo
+ggplot(datos, aes(x=reg, y=ingresos)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  xlab("Regimen contributivo") +
+  ylab("Salary [million of pesos]")
+
+# Boxplot between Ingresos and Educacion
+ggplot(datos, aes(x=edu, y=ingresos)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  xlab(" Nivel educativo ") +
+  ylab("Salary [million of pesos]")
+
+# Boxplot between Ingresos and Departamentos
+ggplot(datos, aes(x=dptos, y=ingresos)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  xlab(" dptos ") +
+  ylab("Salary [million of pesos]")
+
+
+# Boxplot between Ingresos and Alfabetismo
+ggplot(datos, aes(x=alfabetismo, y=ingresos)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  xlab(" Sabe leer y escribir ") +
+  ylab("Salary [million of pesos]")
+
+# Boxplot between Ingresos and sexo
+ggplot(datos, aes(x=sexo, y=ingresos)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  xlab(" Sexo ") +
+  ylab("Salary [million of pesos]")
+
+# Boxplot between Ingresos and Salud
+ggplot(datos, aes(x=salud, y=ingresos)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  xlab(" Salud ") +
+  ylab("Salary [million of pesos]")
+
+# Boxplot between Ingresos and Cotizante Pension
+ggplot(datos, aes(x=pension, y=ingresos)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  xlab(" Cotizante a Pension ") +
+  ylab("Salary [million of pesos]")
+
+
+# Boxplot between Ingresos and Profesion
+ggplot(datos, aes(x=profesion, y=ingresos)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  xlab("Profesiones") +
+  ylab("Salary [million of pesos]")
+
+
+# Boxplot between Ingresos and vivienda
+ggplot(datos, aes(x=vivienda, y=ingresos)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  xlab("Tipo de vivienda") +
+  ylab("Salary [million of pesos]")
+
+# Boxplot between Ingresos and Material de paredes
+ggplot(datos, aes(x=mat_paredes, y=ingresos)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  xlab(" Material paredes de la vivienda ") +
+  ylab("Salary [million of pesos]")
 
