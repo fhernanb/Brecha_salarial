@@ -21,12 +21,12 @@ datos <- datos |> mutate(ingresos = inglabo / 1000000)
 # To convert "estado_civil" in factor using words, not numbers.
 datos <- datos %>%
   mutate(
-    est_civ = case_when(estado_civil == 1 ~ "No casado, vive con pareja hace menos de dos años",
-                        estado_civil == 2 ~ "No casado, vive con pareja hace dos años o más",
+    est_civ = case_when(estado_civil == 1 ~ "Union_menos_2",
+                        estado_civil == 2 ~ "Union_mas_2",
                         estado_civil == 3 ~ "Casado",
                         estado_civil == 4 ~ "Divorciado",
                         estado_civil == 5 ~ "Viudo",
-                        estado_civil == 6 ~ "soltero"),
+                        estado_civil == 6 ~ "Soltero"),
   )
 
 
@@ -220,8 +220,14 @@ datos <- datos %>%
 # Voy a guardar la nueva base de datos para poder usarla luego en los
 # analisis posteriores
 
-#saveRDS(datos, file="datos")
+saveRDS(datos, file="datos")
 datos <- readRDS(file="Data/datos")
+
+datos <- na.omit(datos)
+
+# To eliminate 0 from ingresos
+ind <- datos$ingresos > 0
+datos <- datos[ind, ]
 
 
 # Exploratory analysis ----------------------------------------------------
@@ -237,39 +243,23 @@ ggplot(datos, aes(x=ingresos)) +
   xlab("Salary [million of pesos]") +
   ylab("Densidad")
 
-# Boxplot between Y and X's
-ggplot(datos, aes(x=edu, y=ingresos)) +
-  geom_boxplot() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-  xlab("Estado civil") +
-  ylab("Salary [million of pesos]")
-
-ggplot(datos, aes(x=est_civ, y=log10(ingresos))) +
-  geom_boxplot() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-  xlab("Estado civil") +
-  ylab("Logarithm of salary [million of pesos]")
-
 # Scatterplot between Y and X's
 ggplot(datos, aes(x=edad, y=ingresos)) +
   geom_point() +
   xlab("Edad") +
   ylab("Salary [million of pesos]")
 
-
- 
 # Scatterplot between Experiencia and Ingresos
 ggplot(datos, aes(x=experiencia, y=ingresos)) +
   geom_point() +
   xlab("Meses de experiencia") +
   ylab("Salary [million of pesos]")
   
-
 # Scatterplot Meses trabajados en el ultimo año and Ingresos
 ggplot(datos, aes(x=meses_trabajados, y=ingresos)) +
   geom_point() +
   xlab("Meses Trabajados en el ultimo año") +
-  ylab("Salary [million of pesos]"), 
+  ylab("Salary [million of pesos]")
 
 # Scatterplot horas_trabajadas and Ingresos
 ggplot(datos, aes(x=horas_trabajadas, y=ingresos)) +
@@ -322,6 +312,18 @@ ggplot(datos, aes(x=n_ocupados , y=ingresos)) +
 # cualitativas -----------------------------------------------------------------
 
 # Boxplot between Ingresos and regimen contributivo
+ggplot(datos, aes(x=edu, y=ingresos)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  xlab("Estado civil") +
+  ylab("Salary [million of pesos]")
+
+ggplot(datos, aes(x=est_civ, y=log10(ingresos))) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  xlab("Estado civil") +
+  ylab("Logarithm of salary [million of pesos]")
+
 ggplot(datos, aes(x=reg, y=ingresos)) +
   geom_boxplot() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
@@ -342,26 +344,11 @@ ggplot(datos, aes(x=dptos, y=ingresos)) +
   xlab(" dptos ") +
   ylab("Salary [million of pesos]")
 
-
-# Boxplot between Ingresos and Alfabetismo
-ggplot(datos, aes(x=alfabetismo, y=ingresos)) +
-  geom_boxplot() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-  xlab(" Sabe leer y escribir ") +
-  ylab("Salary [million of pesos]")
-
 # Boxplot between Ingresos and sexo
 ggplot(datos, aes(x=sexo, y=ingresos)) +
   geom_boxplot() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
   xlab(" Sexo ") +
-  ylab("Salary [million of pesos]")
-
-# Boxplot between Ingresos and Salud
-ggplot(datos, aes(x=salud, y=ingresos)) +
-  geom_boxplot() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-  xlab(" Salud ") +
   ylab("Salary [million of pesos]")
 
 # Boxplot between Ingresos and Cotizante Pension
@@ -371,14 +358,12 @@ ggplot(datos, aes(x=pension, y=ingresos)) +
   xlab(" Cotizante a Pension ") +
   ylab("Salary [million of pesos]")
 
-
 # Boxplot between Ingresos and Profesion
 ggplot(datos, aes(x=profesion, y=ingresos)) +
   geom_boxplot() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
   xlab("Profesiones") +
   ylab("Salary [million of pesos]")
-
 
 # Boxplot between Ingresos and vivienda
 ggplot(datos, aes(x=vivienda, y=ingresos)) +

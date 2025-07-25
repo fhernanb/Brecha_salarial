@@ -11,6 +11,10 @@ datos |> filter(oficio == 2512) -> dt
 # To drop rows with NA
 dt <- na.omit(dt)
 
+# To eliminate 0 from ingresos
+ind <- dt$ingresos > 0
+dt <- dt[ind, ]
+
 # Modeling ----------------------------------------------------------------
 library(gamlss)
 
@@ -30,60 +34,72 @@ fits$fits
 
 # horizonte será una fórmula que contiene la estructura más
 # compleja que permitimos para modelar un parámetro
-horizonte <- formula(~edad + pension + 
-                       profesion + est_civ + meses_trabajados + numero_personas
-                        + edu)
+horizonte <- formula(~ sexo + edad + est_civ + reg + edu)
 
 # Modelo base BCTo
-m1_BCTo <- gamlss(ingresos ~ 1, family=BCTo, data=dt)
+m1_LOGNO <- gamlss(ingresos ~ 1, family=LOGNO, data=dt)
 
 # Modelo final con seleccion de variables automático
-m2_BCTo <- stepGAICAll.B(m1_BCTo,
+m2_LOGNO <- NULL
+m2_LOGNO <- stepGAICAll.B(m1_LOGNO,
                           scope=list(lower= ~ 1, upper=horizonte),
                           sigma.scope=list(lower= ~ 1, upper=horizonte)
                           )
 
-summary(m2_BCTo)
-plot(m2_BCTo)
-Rsq(m2_BCTo)
+summary(m2_LOGNO)
+Rsq(m2_LOGNO)
+plot(m2_LOGNO)
 
-# GB2 model -------------------------------------------------------------
+# IG model --------------------------------------------------------------
 # Modelo base 
-m1_GB2 <- gamlss(ingresos ~ 1, family=GB2, data=dt)
+m1_IG <- gamlss(ingresos ~ 1, family=IG, data=dt)
 
 # Modelo final con seleccion de variables automático
-m2_GB2 <- stepGAICAll.B(m1_GB2,
-                          scope=list(lower= ~ 1, upper=horizonte),
-                          sigma.scope=list(lower= ~ 1, upper=horizonte)
-)
-
-summary(m2_GB2)
-Rsq(m2_GB2)
-
-# exGAUS model -------------------------------------------------------------
-
-# Modelo base exGAUS
-m1_exGAUS <- gamlss(ingresos ~ 1, family=exGAUS, data=dt)
-
-# Modelo final con seleccion de variables automático
-m2_exGAUS <- stepGAICAll.B(m1_exGAUS,
+m2_IG <- stepGAICAll.B(m1_IG,
                        scope=list(lower= ~ 1, upper=horizonte),
                        sigma.scope=list(lower= ~ 1, upper=horizonte)
 )
- 
-summary(m2_exGAUS)
-Rsq(m2_exGAUS)
 
-# GG model -------------------------------------------------------------
+summary(m2_IG)
+Rsq(m2_IG)
 
-# Modelo base GG
-m1_GG <- gamlss(ingresos ~ 1, family=GG, data=dt)
+# GG model ------------------------------------------------------------
+# Modelo base 
+m1_GG <- gamlss(ingresos ~ 1, family=GG, data=dt,
+                control=gamlss.control(n.cyc=5000, trace=FALSE))
 
 # Modelo final con seleccion de variables automático
 m2_GG <- stepGAICAll.B(m1_GG,
-                        scope=list(lower= ~ 1, upper=horizonte),
-                        sigma.scope=list(lower= ~ 1, upper=horizonte)
+                       scope=list(lower= ~ 1, upper=horizonte),
+                       sigma.scope=list(lower= ~ 1, upper=horizonte),
+                       nu.scope=list(lower= ~ 1, upper=horizonte)
 )
 
-summary(m2_BCCG)
-Rsq(m2_BCCG)
+summary(m2_GG)
+Rsq(m2_GG)
+
+
+
+
+# NO model ------------------------------------------------------------
+
+horizonte <- formula(~sexo + edad + experiencia + meses_trabajados)
+
+m1_NO <- gamlss(ingresos ~ 1, family=NO, data=dt)
+
+# Modelo final con seleccion de variables automático
+m2_NO <- stepGAICAll.B(m1_NO,
+                       scope=list(lower= ~ 1, upper=horizonte),
+                       sigma.scope=list(lower= ~ 1, upper=horizonte)
+)
+
+summary(m2_NO)
+Rsq(m2_NO)
+
+mod1 <- gamlss(ingresos ~ edad + meses_trabajados,
+               sigma.fo= ~ edad,
+               family=NO, data=dt)
+
+summary(mod1)
+Rsq(mod1)
+plot(mod1)
